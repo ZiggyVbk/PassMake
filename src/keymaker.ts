@@ -73,7 +73,7 @@ class keymaker {
         progressval = progressval - 25;
         
         if(progressval == 0){
-            this.codeoutput.innerHTML = this.generateNewKey(this.keylength, this.debugstatus); 
+            this.codeoutput.innerHTML = this.generateNewKey(this.keylength, true, this.debugstatus); 
             
             progressval = 100; 
         }
@@ -85,7 +85,7 @@ class keymaker {
     //Start the timer on the progressbar and let it more generate keys
     public startGeneratingKeys()
     {
-        if(this.keysgenerated == 0) this.codeoutput.innerHTML = this.generateNewKey();
+        if(this.keysgenerated == 0) this.codeoutput.innerHTML = this.generateNewKey(this.keylength, true, this.debugstatus);
         this.generatetimer = setInterval(() => this.progressBar(), this.timeoutms);
     }
 
@@ -104,7 +104,7 @@ class keymaker {
             msg += c[a][Math.floor(Math.random() * c[a].length)];
         }
         
-        if(insertkeyarray) this.keyArrayHandler(msg, 4);
+        if(insertkeyarray) this.keyArrayHandler(msg);
         this.keysgenerated++;
 
         if(debug || this.debugstatus) console.log("key: " + msg, "- keynr: " + this.keysgenerated);

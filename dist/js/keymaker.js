@@ -51,7 +51,7 @@ var keymaker = (function () {
         var progressval = Number(this.progressbar.value);
         progressval = progressval - 25;
         if (progressval == 0) {
-            this.codeoutput.innerHTML = this.generateNewKey(this.keylength, this.debugstatus);
+            this.codeoutput.innerHTML = this.generateNewKey(this.keylength, true, this.debugstatus);
             progressval = 100;
         }
         if (debug || this.debugstatus)
@@ -61,7 +61,7 @@ var keymaker = (function () {
     keymaker.prototype.startGeneratingKeys = function () {
         var _this = this;
         if (this.keysgenerated == 0)
-            this.codeoutput.innerHTML = this.generateNewKey();
+            this.codeoutput.innerHTML = this.generateNewKey(this.keylength, true, this.debugstatus);
         this.generatetimer = setInterval(function () { return _this.progressBar(); }, this.timeoutms);
     };
     keymaker.prototype.stopGeneratingKeys = function () {
@@ -77,7 +77,7 @@ var keymaker = (function () {
             msg += c[a][Math.floor(Math.random() * c[a].length)];
         }
         if (insertkeyarray)
-            this.keyArrayHandler(msg, 4);
+            this.keyArrayHandler(msg);
         this.keysgenerated++;
         if (debug || this.debugstatus)
             console.log("key: " + msg, "- keynr: " + this.keysgenerated);
