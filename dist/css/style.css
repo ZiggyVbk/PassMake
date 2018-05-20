@@ -1,0 +1,12 @@
+* { font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace; }
+	
+progress[value] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border: none;
+
+    width: 250px;
+    height: 20px;
+}
