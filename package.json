@@ -1,0 +1,9 @@
+{
+    "name": "passwordmaker",
+    "version": "1.2",
+    "main": "dist/index.html",
+    "author": {
+        "name": "Ziggy Verbeek",
+        "url": "http://www.ziggyv.nl"
+    }
+}

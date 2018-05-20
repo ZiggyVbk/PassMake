@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<style>
+	* { font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace; }
+	
+	progress[value] {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		/*appearance: none;*/
+
+		border: none;
+
+		width: 250px;
+		height: 20px;
+	}
+	</style>
+	<title>
+		Password Maker
+	</title>
+</head>
+
+<body>
+	<progress max="100" value="100" id="progbar"></progress>
+	<div id="keycode"></div>
+</body>
+
+<script type="text/javascript" src="js/keymaker.js"></script>
+<script type="text/javascript">
+/*	function genCharArray(charA, charZ) {
+		var a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+		for (; i <= j; ++i) {
+			a.push(String.fromCharCode(i));
+		}
+		return a;
+	}
+	function genNumberArray(Zero = 0, Nine = 9) {
+		var b = [], i = Zero;
+		for(; i <= Nine; ++i)
+		{
+			b.push(i);
+		}
+		return b;
+	}
+	function generateKey(long = 6) {
+        var under = genCharArray('a', 'z'), upper = genCharArray('A', 'Z'), number = genNumberArray(), msg = "", a = 0, i = 0,
+        c = [under, upper, number];
+        for(; i < long; ++i)
+        {
+            a = Math.floor(Math.random() * c.length);
+            msg += c[a][Math.floor(Math.random() * c[a].length)];
+        }
+		console.log(msg);
+        return msg;
+    }
+	function progressBar(pr) {	
+		if(pr.value == 0)
+		{
+			pr.value = 100;
+			document.getElementById("code").innerHTML = generateKey(12);
+		}else{
+			pr.value = pr.value - 25;
+		}
+		console.log(pr.value)
+	}
+	window.onload = function(e)
+	{
+		var progress = document.getElementById("p")
+		window.setInterval(function() {
+			progressBar(progress);
+		}, 1000)
+		console.log("Loaded");
+		document.getElementById("code").innerHTML = generateKey(12);
+	}
+*/	
+</script>
+</html>
