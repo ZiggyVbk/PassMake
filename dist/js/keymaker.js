@@ -4,6 +4,7 @@ var keymaker = (function () {
         if (keylengthcount === void 0) { keylengthcount = 12; }
         if (timerms === void 0) { timerms = 1000; }
         if (debugon === void 0) { debugon = false; }
+        this.progressval = 100;
         this.keyarray = [];
         this.keysgenerated = 0;
         this.progressbar = progresselement;
@@ -41,28 +42,31 @@ var keymaker = (function () {
         }
         this.keylist.innerHTML = "";
         for (var i = 0; i < this.keyarray.length; i++) {
-            this.keylist.innerHTML += this.keyarray[i] + "<br/>";
+            this.keylist.innerHTML += "<li>" + this.keyarray[i] + "</li>";
         }
         if (debug || this.debugstatus)
             console.log(this.keyarray);
     };
-    keymaker.prototype.progressBar = function (debug) {
+    keymaker.prototype.progressBar = function (cutby, procinbar, debug) {
+        if (cutby === void 0) { cutby = 20; }
+        if (procinbar === void 0) { procinbar = false; }
         if (debug === void 0) { debug = false; }
-        var progressval = Number(this.progressbar.value);
-        progressval = progressval - 25;
-        if (progressval == 0) {
+        this.progressval = this.progressval - cutby;
+        if (this.progressval == 0) {
             this.codeoutput.innerHTML = this.generateNewKey(this.keylength, true, this.debugstatus);
-            progressval = 100;
+            this.progressval = 100;
         }
+        if (procinbar)
+            this.progressbar.innerHTML = String(this.progressval) + "%";
         if (debug || this.debugstatus)
-            console.log("progress: " + progressval);
-        this.progressbar.value = String(progressval);
+            console.log("progress: " + this.progressval + "%");
+        this.progressbar.style.width = String(this.progressval) + "%";
     };
     keymaker.prototype.startGeneratingKeys = function () {
         var _this = this;
         if (this.keysgenerated == 0)
             this.codeoutput.innerHTML = this.generateNewKey(this.keylength, true, this.debugstatus);
-        this.generatetimer = setInterval(function () { return _this.progressBar(); }, this.timeoutms);
+        this.generatetimer = setInterval(function () { return _this.progressBar(5); }, this.timeoutms);
     };
     keymaker.prototype.stopGeneratingKeys = function () {
         clearInterval(this.generatetimer);
@@ -86,7 +90,7 @@ var keymaker = (function () {
     return keymaker;
 }());
 window.onload = function () {
-    var progress = document.getElementById("progbar"), output = document.getElementById("keycode"), keylist = document.getElementById("keycodelist");
-    var passwordgen = new keymaker(progress, output, keylist, 16, 2000);
+    var progress = document.getElementById("progbarstatus"), output = document.getElementById("keycode"), keylist = document.getElementById("keycodelist");
+    var passwordgen = new keymaker(progress, output, keylist, 16, 500, true);
     passwordgen.startGeneratingKeys();
 };

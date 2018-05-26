@@ -1,10 +1,14 @@
 class keymaker {
     
+    //make it so it breaks in puzzlepieces and with jquery effects you can reconnect it into a fully customized password
+
     private keylength : number;
 
-    private progressbar : HTMLInputElement;
+    private progressbar : HTMLSpanElement;
     private codeoutput : HTMLElement;
     private keylist : HTMLElement;
+
+    private progressval = 100;
 
     private keyarray : Array<string> = [];
     private keysgenerated : number = 0;
@@ -14,7 +18,7 @@ class keymaker {
 
     private debugstatus : boolean;
 
-    constructor(progresselement : HTMLInputElement, codeoutputelement : HTMLElement, codelist : HTMLElement, keylengthcount : number = 12, timerms : number = 1000, debugon : boolean = false) {
+    constructor(progresselement : HTMLSpanElement, codeoutputelement : HTMLElement, codelist : HTMLElement, keylengthcount : number = 12, timerms : number = 1000, debugon : boolean = false) {
         
         this.progressbar = progresselement;
         this.codeoutput = codeoutputelement;
@@ -60,33 +64,33 @@ class keymaker {
         this.keylist.innerHTML = "";
         for(let i = 0; i < this.keyarray.length; i++)
         {
-            this.keylist.innerHTML += this.keyarray[i] + "<br/>";
+            this.keylist.innerHTML += "<li>" + this.keyarray[i] + "</li>";
         }
 
         if(debug || this.debugstatus) console.log(this.keyarray);
     }
 
     //Slices progress or resets it with a new code
-    private progressBar(debug : boolean = false) {
-        let progressval = Number(this.progressbar.value);	
-        
-        progressval = progressval - 25;
-        
-        if(progressval == 0){
+    private progressBar(cutby : number = 20, procinbar : boolean = false, debug : boolean = false) {
+        this.progressval = this.progressval - cutby;
+       
+        if(this.progressval == 0){
             this.codeoutput.innerHTML = this.generateNewKey(this.keylength, true, this.debugstatus); 
             
-            progressval = 100; 
+            this.progressval = 100; 
         }
+
+        if(procinbar) this.progressbar.innerHTML = String(this.progressval) + "%";
         
-        if(debug || this.debugstatus) console.log("progress: " + progressval);
-        this.progressbar.value = String(progressval);
+        if(debug || this.debugstatus) console.log("progress: " + this.progressval + "%");
+        this.progressbar.style.width = String(this.progressval) + "%";
     }
 
     //Start the timer on the progressbar and let it more generate keys
     public startGeneratingKeys()
     {
         if(this.keysgenerated == 0) this.codeoutput.innerHTML = this.generateNewKey(this.keylength, true, this.debugstatus);
-        this.generatetimer = setInterval(() => this.progressBar(), this.timeoutms);
+        this.generatetimer = setInterval(() => this.progressBar(5), this.timeoutms);
     }
 
     //Stops the (timer/) whole generating business
@@ -114,13 +118,13 @@ class keymaker {
 
 //Running the code:
 window.onload = () => {
-    const   progress = <HTMLInputElement> document.getElementById("progbar"),
+    const   progress = <HTMLSpanElement> document.getElementById("progbarstatus"),
             output = <HTMLElement> document.getElementById("keycode"),
             keylist = <HTMLElement> document.getElementById("keycodelist");
     
     //Creates it
     //let     passwordgen = new keymaker(progress, output, keylist, 12, 1000, true);
-    let     passwordgen = new keymaker(progress, output, keylist, 16, 2000);
+    let     passwordgen = new keymaker(progress, output, keylist, 16, 500, true);
     
     //Starts it
     passwordgen.startGeneratingKeys();

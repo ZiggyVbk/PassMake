@@ -8,9 +8,17 @@
 </head>
 
 <body>
-	<progress max="100" value="100" id="progbar"></progress>
-	<div id="keycode"></div>
-	<p id="keycodelist"></p>
+	<div id="container">
+		<div id="mainblock">
+			<div id="keycode"></div>
+			<div class="progbar">
+				<span id="progbarstatus"></span>
+			</div>
+			<h2>Last generated passwords:</h2>
+			<ul id="keycodelist"></ul>
+		</div>
+		<!--<progress max="100" value="100" id="progbar"></progress>-->
+	</div>
 </body>
 
 <script type="text/javascript" src="js/keymaker.js"></script>
