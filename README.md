@@ -2,6 +2,5 @@
 A website that generates password on the go
 
 TODO
-- CSS THEME
-- LIST OF GENERATED PASSWORDS
-- CHARSORTS (LIKE @ , _ ETC)
+- Charsets (Like @ , _ , etc)
+- Able to apply password preferences
