@@ -1,6 +1,6 @@
 {
     "name": "passwordmaker",
-    "version": "1.3",
+    "version": "1.4",
     "main": "dist/index.html",
     "author": {
         "name": "Ziggy Verbeek",

@@ -1,9 +1,11 @@
 "use strict";
 var keymaker = (function () {
-    function keymaker(progresselement, codeoutputelement, codelist, keylengthcount, timerms, debugon) {
+    function keymaker(progresselement, codeoutputelement, codelist, keylengthcount, storagelimit, timerms, debugon) {
         if (keylengthcount === void 0) { keylengthcount = 12; }
+        if (storagelimit === void 0) { storagelimit = 4; }
         if (timerms === void 0) { timerms = 1000; }
         if (debugon === void 0) { debugon = false; }
+        this.storagelimit = 4;
         this.progressval = 100;
         this.keyarray = [];
         this.keysgenerated = 0;
@@ -11,6 +13,7 @@ var keymaker = (function () {
         this.codeoutput = codeoutputelement;
         this.keylist = codelist;
         this.keylength = keylengthcount;
+        this.storagelimit = storagelimit;
         this.timeoutms = timerms;
         this.debugstatus = debugon;
     }
@@ -29,6 +32,22 @@ var keymaker = (function () {
             b.push(i);
         }
         return b;
+    };
+    keymaker.prototype.genSpecialArray = function (underscore, atChar, hashChar) {
+        if (underscore === void 0) { underscore = true; }
+        if (atChar === void 0) { atChar = true; }
+        if (hashChar === void 0) { hashChar = true; }
+        var c = [];
+        if (underscore) {
+            c.push("_");
+        }
+        if (atChar) {
+            c.push("@");
+        }
+        if (hashChar) {
+            c.push("#");
+        }
+        return c;
     };
     keymaker.prototype.keyArrayHandler = function (passcode, storagelimit, debug) {
         if (storagelimit === void 0) { storagelimit = 4; }
@@ -75,13 +94,18 @@ var keymaker = (function () {
         if (keylength === void 0) { keylength = 12; }
         if (insertkeyarray === void 0) { insertkeyarray = true; }
         if (debug === void 0) { debug = false; }
-        var under = this.genCharArray('a', 'z'), upper = this.genCharArray('A', 'Z'), number = this.genNumberArray(), msg = "", a = 0, i = 0, c = [under, upper, number];
+        var under = this.genCharArray('a', 'z'), upper = this.genCharArray('A', 'Z'), number = this.genNumberArray(), special = this.genSpecialArray(), msg = "", a = 0, i = 0, c = [under, upper, number, special];
         for (i = 0; i < keylength; ++i) {
-            a = Math.floor(Math.random() * c.length);
+            if (Math.floor(Math.random() * 100) > 35) {
+                a = Math.floor(Math.random() * (c.length - 1));
+            }
+            else {
+                a = Math.floor(Math.random() * c.length);
+            }
             msg += c[a][Math.floor(Math.random() * c[a].length)];
         }
         if (insertkeyarray)
-            this.keyArrayHandler(msg);
+            this.keyArrayHandler(msg, this.storagelimit);
         this.keysgenerated++;
         if (debug || this.debugstatus)
             console.log("key: " + msg, "- keynr: " + this.keysgenerated);
@@ -91,6 +115,6 @@ var keymaker = (function () {
 }());
 window.onload = function () {
     var progress = document.getElementById("progbarstatus"), output = document.getElementById("keycode"), keylist = document.getElementById("keycodelist");
-    var passwordgen = new keymaker(progress, output, keylist, 16, 500, true);
+    var passwordgen = new keymaker(progress, output, keylist, 16, 6, 500, true);
     passwordgen.startGeneratingKeys();
 };
